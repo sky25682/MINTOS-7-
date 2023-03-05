@@ -6,9 +6,12 @@
 01.Kernel32/VirtualOS.asm
 01.Kernel32/VirtualOS.bin
 01.Kernel32/VirtualOS.bin
+01.Kernel32/elf_i386.x
 01.Kernel32/linker32.x
 01.Kernel32/makefile
 04.Utility/00.ImageMaker/ImageMaker.c
+04.Utility/00.ImageMaker/ImageMaker.c
+04.Utility/00.ImageMaker/makefile
 Disk.img
 Disk.img
 makefile

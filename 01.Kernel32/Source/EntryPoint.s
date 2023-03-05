@@ -9,17 +9,41 @@ START:
 	mov ds,ax
 	mov es, ax
 
+	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+	; A20 gate on
+	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+	; using BIOS =>  A20 gate on
+	mov ax, 0x2401
+	int 0x15
+
+	jc .A20GATEERROR
+	jmp .A20GATESUCCESS
+
+.A20GATEERROR:
+; if error system control port on
+	in al, 0x92
+	or al, 0x02
+	and al, 0xFE
+	out 0x92, al
+
+.A20GATESUCCESS:
 	cli
 	lgdt [GDTR]
 
 	mov eax, 0x4000003B
 	mov cr0, eax
 
-        jmp dword 0x08: (PROTECTEDMODE - $$ + 0x10000)
+        jmp dword 0x18: (PROTECTEDMODE - $$ + 0x10000)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;
+;
+;protect mode
+;보호모드
+;
+;;;;;;;;;;;;;;;;;;;;;
 [BITS 32]
 PROTECTEDMODE:
-	mov ax, 0x10
+	mov ax, 0x20
         mov ds, ax
 	mov es, ax
 	mov fs, ax
@@ -37,7 +61,7 @@ PROTECTEDMODE:
 	add esp, 12
 
 
-        jmp dword 0x08: 0x10200
+        jmp dword 0x18: 0x10200
 
 
 PRINTMESSAGE:
@@ -102,6 +126,27 @@ GDT:
 		db 0x00
 		db 0x00
 	
+	; IA-32e 모드 커널용 코드 세그먼트 디스크립터
+	IA_32eCODEDESCRIPTOR:
+		dw 0xFFFF
+		dw 0x0000
+		db 0x00
+		db 0x9A
+		db 0xAF
+		db 0x00
+
+	; IA-32e 모드 커널용 데이터 세그먼트 디스크립터
+	IA_32eDATADESCRIPTOR:
+		dw 0xFFFF
+		dw 0x0000
+		db 0x00
+		db 0x92
+		db 0xAF
+		db 0x00
+
+
+
+
 
 	CODEDESCRIPTOR: 
 		dw 0xFFFF

@@ -10,11 +10,17 @@ SECTION .text	; text section(Segment)
 
 jmp 0x07C0:START		; copy 0x07C0 to cs, and goto START
 
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; MINT64 OS에 관련된 환경 설정 값
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 TOTALSECTORCOUNT:	dw	0x02
 
+KERNEL32SECTORCOUNT: dw 0x02
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; 코드 영역
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 START:
 
@@ -320,7 +326,7 @@ MESSAGE1:	db 'MINT64 OS Boot Loader Start~!!', 0 ;define the string that I want 
 
 DISKERRORMESSAGE:	db	'DISK Error~!!', 0
 
-IMAGELOADINGMESSAGE:	db	'OS Image Loading...', 0
+IMAGELOADINGMESSAGE:	db	'OS Image Loading...' , 0
 
 LOADINGCOMPLETEMESSAGE:	db	'Complete~!!', 0
 
